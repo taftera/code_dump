@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Scroll Animation test</title>
+	<link href="https://unpkg.com/aos@2.3.0/dist/aos.css" rel="stylesheet">
+	<script src="https://unpkg.com/aos@2.3.0/dist/aos.js"></script>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		.item {
+			width: 200px;
+			height: 200px;
+			margin: 50px auto;
+			padding-top: 75px;
+			background: #ccc;
+			text-align: center;
+			color: #FFF;
+			font-size: 3em;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="item" data-aos="fade-up">1</div>
+	<div class="item" data-aos="fade-down">2</div>
+	<div class="item" data-aos="fade-right">3</div>
+	<div class="item" data-aos="fade-left">4</div>
+
+	<div class="item" data-aos="zoom-in">5</div>
+	<div class="item" data-aos="zoom-out">6</div>
+	<div data-aos="fade-up"><h1>some title</h1></div>
+	<div data-aos="fade-up">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at nisi nisl. Pellentesque id dui tincidunt, bibendum urna sed, lobortis lacus. Donec rutrum tellus eros, et faucibus metus congue a. Maecenas sit amet purus metus.</div>
+	<div class="item" data-aos="slide-up">7</div>
+
+	<div class="item" data-aos="flip-up">8</div>
+	<div class="item" data-aos="flip-down">9</div>
+	<div class="item" data-aos="flip-right">10</div>
+	<div class="item" data-aos="flip-left">11</div>
+</body>
+<script>
+	AOS.init({
+		duration: 1200,
+	})
+</script>
+
+</html>
