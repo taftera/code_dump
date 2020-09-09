@@ -1,0 +1,105 @@
+{% comment %}
+  <!-- Ajax input -->
+  <a id="add-to-cart-button">añadir al carrito ajax</a>
+  <script>
+  $('#add-to-cart-button').click(function(){
+    addItemToCart({{ product.variants[0].id }}, 1, "1", "Months")
+  });
+</script>
+  <script>
+  function addItemToCart(variant_id, qty, frequency, unit_type) {
+    data = {
+      "id": variant_id,
+      "quantity": qty,
+      "properties": {
+        "shipping_interval_frequency": frequency,
+        "shipping_interval_unit_type": unit_type
+      }
+    }
+    jQuery.ajax({
+      type: 'POST',
+      url: '/cart/add.js',
+      data: data,
+      dataType: 'json',
+      success: function() { 
+        window.location.href = '/cart'; 
+      }
+    });
+    window.location = '/checkout';
+  }
+</script>
+{% endcomment %}  
+{% comment %}  
+<!-- normal item config (deconstruction) -->
+<form class="alex--working-no-line-items" action="/cart/add" method="post" style="display:none;">
+  
+<!-- Begin ReCharge code -->
+{% if product.available %}{% include 'subscription-product' %}{% endif %}
+<!-- End ReCharge code -->
+  
+  <input name="id" data-productid="{{ product.id }}" value="{{ product.variants[0].id }}" type="hidden">
+  
+  <div class="product-form--atc-qty form-fields--qty" data-quantity-wrapper>
+        <div class="form-field form-field--qty-select visible">
+          <div class="form-field-select-wrapper">
+            <select
+              class="form-field-input form-field-select"
+              aria-label="{{ 'general.general.quantity' | t }}"
+              data-quantity-select
+            >
+              {% for i in (1..9) %}
+                <option {% if i == 1 %}selected {% endif %}value="{{ i }}">
+                  {{ i }}
+                </option>
+              {% endfor %}
+              <option value="10+">
+                10+
+              </option>
+            </select>
+            <label class="form-field-title">
+              {{ 'general.general.quantity' | t }}
+            </label>
+            {% include 'icon-chevron-down-small' %}
+          </div>
+        </div>
+
+        <div class="form-field form-field--qty-input hidden">
+          <input
+            class="form-field-input form-field-number form-field-filled"
+            value="1"
+            name="quantity"
+            type="text"
+            pattern="\d*"
+            aria-label="{{ 'general.general.quantity' | t }}"
+            data-quantity-input
+          >
+          <label class="form-field-title">{{ 'general.general.quantity' | t }}</label>
+        </div>
+
+
+      </div>
+{% comment %}
+  <!-- line item inputs -->
+  <input name="properties[Coder]" type="hidden" value="Alex" />
+  <input name="properties[Date]" type="hidden" value="20200902" />
+  <input name="properties[shipping_interval_frequency]" type="hidden" value="1" />
+  <input name="properties[shipping_interval_unit_type]" type="hidden" value="Months" />
+{% endcomment %}
+      <button
+        class="product-form--atc-button {% unless selected_variant.available %}disabled{% endunless %}  limoniapps-discountninja-block limoniapps-discountninja-block-buttons "
+        type="submit"
+        {% unless selected_variant.available %}disabled{% endunless %}
+        data-product-atc >
+        <span class="atc-button--text">
+          {% if selected_variant.available %}
+            {{ 'product.buttons.add_to_cart' | t }}
+          {% else %}
+            {{ 'product.buttons.sold_out' | t }}
+          {% endif %}
+        </span>
+        <span class="atc-button--icon">
+          {%- include 'icon-spinner' -%}
+        </span>
+      </button>  
+</form>
+{% endcomment %}  
